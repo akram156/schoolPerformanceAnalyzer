@@ -35,7 +35,7 @@ const SignIn = () => {
             .join("\n"),
         );
       } else {
-        console.log(e.response?.data.error);
+        alert(e.response?.data.error);
       }
     } finally {
       setIsLoading(false);
