@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./SignIn.css";
 import axios from "axios";
 import Spinner from "../../components/spinner/Spinner";
+import API_URL from "../../config/api";
 const SignIn = () => {
   const navigate = useNavigate();
   const [passwordShown, setpasswordShown] = useState(false);
@@ -15,8 +16,10 @@ const SignIn = () => {
     e.preventDefault();
     try {
       setIsLoading(true);
+      console.log("api url:",API_URL)
+      console.log("api url:")
       const result = await axios.post(
-        "http://localhost:9825/api/user/login",
+        `${API_URL}/api/user/login`,
         user,
       );
       localStorage.setItem("token", result.data.token);
@@ -32,7 +35,7 @@ const SignIn = () => {
             .join("\n"),
         );
       } else {
-        alert(e.response?.data.error);
+        console.log(e.response?.data.error);
       }
     } finally {
       setIsLoading(false);
@@ -41,7 +44,7 @@ const SignIn = () => {
   const forgetPassword = async () => {
     try {
       const result = await axios.post(
-        "http://localhost:9825/api/reset/forgetPassword",
+        `${API_URL}/api/reset/forgetPassword`,
         {
           email: user.email,
         },
