@@ -1,11 +1,8 @@
 const Analyses = require("../models/Analyses");
-const jwt = require("jsonwebtoken");
 exports.getAllAnalyses = async (req, res) => {
   try {
-    const token = req.headers["authorization"];
-    console.log("token", token);
-    const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
-    const result = await Analyses.find({ user: decodedToken.id }).select(
+    const { id } = req.query;
+    const result = await Analyses.find({ user: id }).select(
       "_id name educationalLevel schoolYear stream trimester result.overview createdAt",
     );
     console.log("decode token", decodedToken);
