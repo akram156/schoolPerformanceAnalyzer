@@ -107,9 +107,10 @@ const DashboardLayout = ({
   const getAllAnalyses = async () => {
     try {
       const token = localStorage.getItem("token");
+      console.log("token",token)
       const result = await axios.get(`${API_URL}/api/getAnalyses/allAnalyses`, {
         headers: {
-          Authorization: token,
+          authorization: token,
         },
       });
       setAllAnalyses(result.data.analyses);
