@@ -1,8 +1,9 @@
 const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({
-  service: "gmail",
-
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASSWORD,
@@ -10,6 +11,11 @@ const transporter = nodemailer.createTransport({
 });
 
 const sendVerificationEmail = async (email, code) => {
+  console.log("Testing SMTP connection...");
+
+  await transporter.verify();
+
+  console.log("SMTP connection successful");
   const info = await transporter.sendMail({
     from: process.env.EMAIL_USER,
     to: email,
