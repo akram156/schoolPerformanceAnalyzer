@@ -1,8 +1,10 @@
 const Analyses = require("../models/Analyses");
-
+const jwt = require("jsonwebtoken");
 exports.getAllAnalyses = async (req, res) => {
   try {
-    const result = await Analyses.find().select(
+    const token = req.headers["authorization"];
+    const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
+    const result = await Analyses.find({user:decodedToken.id}).select(
       "_id name educationalLevel schoolYear stream trimester result.overview createdAt",
     );
     return res.status(200).json({

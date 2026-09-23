@@ -77,7 +77,7 @@ const DashboardLayout = ({
 }) => {
   const [sidebarShown, setSidebarShown] = useState(true);
   const [currentUser, setCurrentUser] = useState(null);
-  const [allAnalyses,setAllAnalyses]=useState([])
+  const [allAnalyses, setAllAnalyses] = useState([]);
   const [licence, setlicence] = useState(null);
 
   const navigate = useNavigate();
@@ -86,14 +86,11 @@ const DashboardLayout = ({
   const getCurrentUser = async () => {
     try {
       const token = localStorage.getItem("token");
-      const result = await axios.get(
-        `${API_URL}/api/authorization/current`,
-        {
-          headers: {
-            Authorization: token,
-          },
+      const result = await axios.get(`${API_URL}/api/authorization/current`, {
+        headers: {
+          Authorization: token,
         },
-      );
+      });
 
       setCurrentUser(result.data.user);
 
@@ -109,10 +106,13 @@ const DashboardLayout = ({
 
   const getAllAnalyses = async () => {
     try {
-      const result = await axios.get(
-        `${API_URL}/api/getAnalyses/allAnalyses`,
-      );
-      setAllAnalyses(result.data.analyses)
+      const token = localStorage.getItem("token");
+      const result = await axios.get(`${API_URL}/api/getAnalyses/allAnalyses`, {
+        headers: {
+          Authorization: token,
+        },
+      });
+      setAllAnalyses(result.data.analyses);
     } catch (error) {
       console.log(error.response);
     }
@@ -121,7 +121,7 @@ const DashboardLayout = ({
     getCurrentUser();
     getAllAnalyses();
   }, []);
-  console.log("analyses:",allAnalyses);
+  console.log("analyses:", allAnalyses);
   {
     if (!currentUser) {
       return <Loading />;
@@ -179,7 +179,14 @@ const DashboardLayout = ({
 
           <main className="outletDashboardLayoutContainer">
             <Outlet
-              context={{ currentUser, getCurrentUser, setCurrentUser, licence,allAnalyses,getAllAnalyses }}
+              context={{
+                currentUser,
+                getCurrentUser,
+                setCurrentUser,
+                licence,
+                allAnalyses,
+                getAllAnalyses,
+              }}
             />
           </main>
         </div>
