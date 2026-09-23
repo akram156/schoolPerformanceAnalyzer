@@ -104,24 +104,32 @@ const DashboardLayout = ({
     }
   };
   const getAllAnalyses = async () => {
-    console.log("token");
+    const id = currentUser?._id;
+    if (!id) return; // Prevent calling with an undefined ID
+
     try {
-      const id = currentUser?._id;
       const token = localStorage.getItem("token");
       const result = await axios.get(`${API_URL}/api/getAnalyses/allAnalyses`, {
-        params: {
-          id: id,
-        },
+        params: { id },
+        headers: { Authorization: token },
       });
-      setAllAnalyses(result.data.analyses);
+      setAllAnalyses(result.data.analyses || []);
     } catch (error) {
-      console.log(error.response);
+      console.error(
+        "Error fetching analyses:",
+        error.response?.data || error.message,
+      );
     }
   };
   useEffect(() => {
     getCurrentUser();
-    getAllAnalyses();
   }, []);
+
+  useEffect(() => {
+    if (currentUser?._id) {
+      getAllAnalyses();
+    }
+  }, [currentUser]);
   console.log("analyses:", allAnalyses);
   {
     if (!currentUser) {

@@ -7,9 +7,7 @@ const SavedAnalyses = ({ language }) => {
   const t = translations[language];
   const { allAnalyses, getAllAnalyses } = useOutletContext();
   const [filterAnalyses, setFilterAnalyses] = useState("");
-  useEffect(() => {
-    getAllAnalyses();
-  }, []);
+ 
   return (
     <div className="savedAnalysesMainContainer">
       <div className="savedAnalysesContainer">
