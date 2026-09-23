@@ -7,6 +7,8 @@ exports.getAllAnalyses = async (req, res) => {
     const result = await Analyses.find({user:decodedToken.id}).select(
       "_id name educationalLevel schoolYear stream trimester result.overview createdAt",
     );
+    console.log("result",result)
+    console.log("decode token", decodedToken)
     return res.status(200).json({
       analyses: result,
     });
